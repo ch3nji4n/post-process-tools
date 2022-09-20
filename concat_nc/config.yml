@@ -1,0 +1,3 @@
+fldr_dir: '.../fcstout/2022/202209/20220912'
+output_dir: '.../temp_output/20220912'
+output_flnm: '2022091912-fcst.nc'

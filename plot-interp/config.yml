@@ -1,0 +1,14 @@
+# no tab, space only
+# grammar checking: www.bejson.com/validators/yaml_editor/
+
+file_dir: '.../hourly_d03_2022091914.nc'
+time_tag: '0911914'
+#time_frame: 'daily'
+time_frame: 'hourly'
+model_type: 'adms'
+# model_type: 'cmaq'
+pllt_list: ['PM10', 'PM25', 'NO2', 'SO2', 'O3', 'O3_8H', 'CO', 'AQI']
+colorbar_max: [150, 150, 50, 50, 200, 200, 5, 200]
+shape_file_dir: '...\border\zhujiang_delta\guangdong\guangdong'
+outpur_root: '...\plot'
+font: ['Microsoft YaHei']
