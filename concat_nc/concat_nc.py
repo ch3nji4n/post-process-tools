@@ -18,10 +18,15 @@ def get_file_path(fldr_dir):
 def concat_adms(fldr_dir):
     fl_path_list = get_file_path(fldr_dir)
     ds_init = xr.open_dataset(fl_path_list[0])
-    ds_concat = ds_init
+    LON = ds_init.longitude
+    LAT = ds_init.latitude
+    ds_concat = ds_init.drop_vars(['longitude', 'latitude'])
     for fl_path in fl_path_list[1:]:
         ds = xr.open_dataset(fl_path)
+        ds = ds.drop_vars(['longitude', 'latitude'])
         ds_concat = xr.concat([ds_concat, ds], dim='datatime')
+    ds_concat['longitude'] = LON
+    ds_concat['latitude'] = LAT
     return ds_concat
 
 
