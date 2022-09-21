@@ -32,12 +32,18 @@ def concat_adms(fldr_dir):
 
 config_path = 'config.yml'
 config = yaml.load(open(config_path, 'r'), Loader=yaml.FullLoader)
-fldr_dir = config['fldr_dir']
+today = arrow.now().floor('day')
+before2day = today.shift(days=-2)
+y, ym, ymd = get_ymd(today)
+_y, _ym, _ymd = get_ymd(before2day)
+fldr_dir = config['concat_fldr_dir'] % (_y, _ym, _ymd)
+output_dir = config['concat_output_dir'] % (y, ym)
+output_flnm = config['concat_output_flnm'] % ymd
+print(f'Concatenating files in {fldr_dir} ...')
 ds_concat = concat_adms(fldr_dir)
 encoding = {var: {'zlib': True, 'complevel':9} for var in ds_concat.data_vars}
-output_dir = config['output_dir'] 
 if not os.path.exists(output_dir):
-    os.mkdir(output_dir)
-output_flnm = config['output_flnm']
+    os.makedirs(output_dir)
 out_fl_path = os.path.join(output_dir, output_flnm)
 ds_concat.to_netcdf(out_fl_path, encoding=encoding)
+print(f'Concatenated file saved to {out_fl_path}')

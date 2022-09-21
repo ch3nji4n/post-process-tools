@@ -1,6 +1,6 @@
 # no tab, space only
 # grammar checking: www.bejson.com/validators/yaml_editor/
 
-fldr_dir: '.../fcstout/2022/202209/20220912'
-output_dir: '.../temp_output/20220912'
-output_flnm: '2022091912-fcst.nc'
+concat_fldr_dir: '.../fcstout/%s/%s/%s'
+concat_output_dir: '.../adms_concat/%s/%s'
+concat_output_flnm: '%s-fcst.nc'
