@@ -181,9 +181,9 @@ def fix_adms(conc_xr):
 
 if __name__ == '__main__':
     target_date = arrow.now()
-    tg_y, tg_ym, tg_ymd = get_ymd(target_date)
+    trg_y, trg_ym, trg_ymd = get_ymd(target_date)
     adms_fl_path = get_adms_fl_path(target_date, -2)
-    out_fldr_dir = cfg.adms_interp_output_fldr_template % (tg_y, tg_ym, tg_ymd)   
+    out_fldr_dir = cfg.adms_interp_output_fldr_template % (trg_y, trg_ym, trg_ymd)   
     if not os.path.exists(out_fldr_dir):
         os.makedirs(out_fldr_dir)
 
