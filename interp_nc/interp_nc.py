@@ -205,7 +205,9 @@ if __name__ == '__main__':
     OUTPUT_LON, OUTPUT_LAT = np.meshgrid(lon_range, lat_range)
 
     fcst_time = DATASET_ADMS['datatime']
-    fcst_time = fcst_time[27:]
+    dt = target_date.naive 
+    dt = np.datetime64(dt)
+    fcst_time = fcst_time.where(fcst_time >= dt, drop=True)
     DATASET_ADMS = get_pllts(DATASET_ADMS) 
     DATASET_ADMS = fix_adms(DATASET_ADMS) 
     DATASET_ADMS_HOURLY = cal_aqi(DATASET_ADMS) # will concat O3_8hr and AQI
@@ -244,7 +246,7 @@ if __name__ == '__main__':
     del DATASET_ADMS
     
     dates_daily = DATASET_ADMS_DAILY['datatime']
-    dates_daily = dates_daily[2:]
+    dates_daily = dates_daily.where(dates_daily >= dt, drop=True)
     cpu_num = len(dates_daily.values)
     p = Pool(cpu_num)
     for t in dates_daily:
