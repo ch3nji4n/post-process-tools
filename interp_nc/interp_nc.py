@@ -45,12 +45,7 @@ def interp_hourly(t, t_stamp, out_fl_path):
     ds_interp_h = ds_interp_h.assign(lon=(('west_east', 'south_north'), OUTPUT_LON))
 
     for var in var_list:
-        if var == 'CO':
-            grid_zeros = np.zeros(shape=OUTPUT_LON.shape) 
-            ds_interp_h = ds_interp_h.assign(CO=(('west_east', 'south_north'), grid_zeros))
-        else:
-            grid_interp = griddata((LON, LAT), ds_t[var], (OUTPUT_LON, OUTPUT_LAT), method='linear')
-
+        grid_interp = griddata((LON, LAT), ds_t[var], (OUTPUT_LON, OUTPUT_LAT), method='linear')
         if var == 'PM10':
             ds_interp_h = ds_interp_h.assign(PM10=(('west_east', 'south_north'), grid_interp))
         elif var == 'PM2.5':
@@ -65,12 +60,12 @@ def interp_hourly(t, t_stamp, out_fl_path):
             ds_interp_h = ds_interp_h.assign(O3_8H=(('west_east', 'south_north'), grid_interp))
         elif var == 'AQI':
             ds_interp_h = ds_interp_h.assign(AQI=(('west_east', 'south_north'), grid_interp))
+        elif var == 'CO':
+            ds_interp_h = ds_interp_h.assign(CO=(('west_east', 'south_north'), grid_interp))
 
-    #print(ds_interp_h)
     print('saving to', out_fl_path)
     encoding = {var: {'zlib': True, 'complevel':9} for var in ds_interp_h.data_vars}
     ds_interp_h.to_netcdf(out_fl_path, encoding=encoding)
-    #ds_interp_h.to_netcdf(out_fl_path)
 
 
 def interp_daily(t, out_fl_path):
@@ -90,12 +85,7 @@ def interp_daily(t, out_fl_path):
     ds_interp_dly = ds_interp_dly.assign(lon=(('west_east', 'south_north'), OUTPUT_LON))
 
     for var in var_list:
-        if var == 'CO':
-            grid_zeros = np.zeros(shape=OUTPUT_LON.shape) 
-            ds_interp_dly = ds_interp_dly.assign(CO=(('west_east', 'south_north'), grid_zeros))
-        else:
-            grid_interp = griddata((LON, LAT), ds_t[var], (OUTPUT_LON, OUTPUT_LAT), method='linear')
-
+        grid_interp = griddata((LON, LAT), ds_t[var], (OUTPUT_LON, OUTPUT_LAT), method='linear')
         if var == 'PM10':
             ds_interp_dly = ds_interp_dly.assign(PM10=(('west_east', 'south_north'), grid_interp))
         elif var == 'PM2.5':
@@ -110,12 +100,12 @@ def interp_daily(t, out_fl_path):
             ds_interp_dly = ds_interp_dly.assign(O3_8H=(('west_east', 'south_north'), grid_interp))
         elif var == 'AQI':
             ds_interp_dly = ds_interp_dly.assign(AQI=(('west_east', 'south_north'), grid_interp))
+        elif var == 'CO':
+            ds_interp_dly = ds_interp_dly.assign(CO=(('west_east', 'south_north'), grid_interp))
 
-    #print(ds_interp_dly)
     print('saving to', out_fl_path)
     encoding = {var: {'zlib': True, 'complevel':9} for var in ds_interp_dly.data_vars}
     ds_interp_dly.to_netcdf(out_fl_path, encoding=encoding)
-    #ds_interp_dly.to_netcdf(out_fl_path)
 
 
 @timer
@@ -134,7 +124,7 @@ def cal_aqi(ds_pllts):
 
 
 def get_pllts(ds):
-    pllt_list = ['PM10', 'PM2.5', 'NO2', 'SO2', 'O3']
+    pllt_list = ['PM10', 'PM2.5', 'NO2', 'SO2', 'O3', 'CO']
     ds_pllts = ds[pllt_list[0]]
     for pllt in pllt_list[1:]:
         ds_pllt = ds[pllt] 
